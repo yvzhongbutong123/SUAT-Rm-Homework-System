@@ -80,6 +80,25 @@ function resolveDataDir() {
   throw new Error('无法创建可写的数据目录');
 }
 
+function openBrowser(url) {
+  const attempts = [
+    () => spawn('explorer.exe', [url], { detached: true, stdio: 'ignore' }),
+    () => spawn('cmd.exe', ['/c', 'start', '', url], { detached: true, stdio: 'ignore' }),
+    () => spawn('rundll32.exe', ['url.dll,FileProtocolHandler', url], { detached: true, stdio: 'ignore' }),
+  ];
+  for (const attempt of attempts) {
+    try {
+      const child = attempt();
+      child.unref();
+      bootLog(`已尝试打开浏览器 ${url}`);
+      return true;
+    } catch (err) {
+      bootLog(`打开浏览器失败：${err.message}`);
+    }
+  }
+  return false;
+}
+
 async function main() {
   bootLog(`启动 v${pkg.version} exec=${process.execPath} node=${process.version}`);
   const dataDir = resolveDataDir();
@@ -136,15 +155,9 @@ async function main() {
   console.log('');
 
   if (!process.env.RMH_NO_OPEN) {
-    try {
-      const child = spawn('cmd.exe', ['/c', 'start', '', url], {
-        detached: true,
-        stdio: 'ignore',
-        windowsHide: true,
-      });
-      child.unref();
-    } catch (err) {
-      logger.warn(`打开浏览器失败：${err.message}`);
+    const opened = openBrowser(url);
+    if (!opened) {
+      console.log('  未能自动打开浏览器，请复制上面的地址手动访问。');
     }
   }
 

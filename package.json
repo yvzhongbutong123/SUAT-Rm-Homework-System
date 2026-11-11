@@ -1,7 +1,7 @@
 {
   "name": "rm-homework",
   "productName": "RoboMaster 战队作业管理",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "RoboMaster 战队作业管理系统 —— 基于 GitHub 仓库的作业下发、提交、批改与看板",
   "main": "src/main/main.js",
   "author": "RoboMaster Team",

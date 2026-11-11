@@ -1,6 +1,6 @@
 {
-  "version": "1.0.7",
-  "notes": "恢复前台启动：双击打开窗口并自动唤起浏览器，关闭窗口即停止服务（移除后台分离模式）。",
-  "url": "https://raw.githubusercontent.com/yvzhongbutong123/SUAT-Rm-Homework-System/main/downloads/RM-Homework-1.0.7.exe",
-  "publishedAt": "2026-11-11T21:10:00+08:00"
+  "version": "1.0.8",
+  "notes": "修复浏览器唤起：改用 explorer / cmd start / rundll32 依次尝试，并在窗口内打印地址作为兜底。",
+  "url": "https://raw.githubusercontent.com/yvzhongbutong123/SUAT-Rm-Homework-System/main/downloads/RM-Homework-1.0.8.exe",
+  "publishedAt": "2026-11-11T21:20:00+08:00"
 }
