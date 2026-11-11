@@ -236,7 +236,12 @@ class AppServices {
       if (!token || !last) return null;
       try {
         const result = await this.login({ token, silent: true, remember: false });
-        // 打开时做一次成员检索：members.json 里没有当前账号就补登记
+        // 打开时合并本地与远程成员表，再做一次成员检索
+        try {
+          await this.mergeMembers();
+        } catch (err) {
+          this.logger.warn(`成员合并失败：${err.message}`);
+        }
         try {
           await this.ensureMembership();
         } catch (err) {
@@ -258,6 +263,32 @@ class AppServices {
   /* ------------------------------------------------------------------ */
   /* 登录 / 仓库                                                         */
   /* ------------------------------------------------------------------ */
+
+  /** 合并本地缓存与 GitHub 上的 members.json：远程为准，本地独有的成员补进远程。 */
+  async mergeMembers() {
+    if (!this.session || this.session.demo || !this.storage) return { merged: 0 };
+    const local = await this.getMembers().catch(() => ({ members: {} }));
+    const localMembers = { ...(local.members || {}) };
+    if (!Object.keys(localMembers).length) return { merged: 0 };
+    await this.storage.pull({ strict: false }).catch(() => {});
+    const remote = await this.getMembers().catch(() => ({ members: {} }));
+    const missing = Object.entries(localMembers).filter(([login]) => !remote.members[login]);
+    if (!missing.length) return { merged: 0 };
+    if (this.repoInfo && this.repoInfo.permissions && this.repoInfo.permissions.push === false) {
+      return { merged: 0, reason: 'no-write' };
+    }
+    await this.storage.mutate(async () => {
+      const fresh = await this.getMembers();
+      for (const [login, record] of missing) {
+        if (!fresh.members[login]) fresh.members[login] = record;
+      }
+      fresh.version = 1;
+      fresh.updatedAt = nowIso();
+      await this.storage.writeJsonRaw('members.json', fresh);
+    }, 'chore(members): 合并本地成员');
+    this.logger.info(`已合并 ${missing.length} 个本地成员到 members.json`);
+    return { merged: missing.length };
+  }
 
   /** 打开时检索 members.json：没有当前账号就写入（未分组组员），有则继续。 */
   async ensureMembership() {

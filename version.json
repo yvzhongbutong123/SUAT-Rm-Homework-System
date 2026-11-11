@@ -1,6 +1,6 @@
 {
-  "version": "1.0.2",
-  "notes": "打开应用时检索 members.json：已有当前账号则继续，没有则自动登记为未分组组员（含自动登录）。",
-  "url": "https://github.com/yvzhongbutong123/SUAT-Rm-Homework-System/releases/latest/download/RM-Homework-1.0.2.exe",
-  "publishedAt": "2026-11-11T19:40:00+08:00"
+  "version": "1.0.3",
+  "notes": "打开时合并本地与 GitHub 的 members.json（远程优先、本地补缺），再检索当前账号；修复本地未推送成员被 pull 覆盖的问题。",
+  "url": "https://github.com/yvzhongbutong123/SUAT-Rm-Homework-System/releases/latest/download/RM-Homework-1.0.3.exe",
+  "publishedAt": "2026-11-11T19:50:00+08:00"
 }
