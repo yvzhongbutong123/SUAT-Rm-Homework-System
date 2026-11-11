@@ -1,6 +1,6 @@
 {
-  "version": "1.0.0",
-  "notes": "首个公开版本：三组作业隔离、当前周由队长管理、历史周按组归档、文件夹拖拽提交、在线批改、进度看板、成员与角色权限、成绩即时提醒。",
-  "url": "https://github.com/yvzhongbutong123/SUAT-Rm-Homework-System/releases/latest/download/RM-Homework-1.0.0.exe",
-  "publishedAt": "2026-11-11T17:00:00+08:00"
+  "version": "1.0.1",
+  "notes": "修复：自动登录时也会登记未分组组员；无写权限时给出提示；新增设置页「检查更新」。",
+  "url": "https://github.com/yvzhongbutong123/SUAT-Rm-Homework-System/releases/latest/download/RM-Homework-1.0.1.exe",
+  "publishedAt": "2026-11-11T18:10:00+08:00"
 }
