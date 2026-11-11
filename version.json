@@ -1,6 +1,6 @@
 {
-  "version": "1.0.9",
-  "notes": "浏览器改用 cmd start 优先唤起；新增带可写数据目录的启动脚本，避免 AppData 权限问题。",
-  "url": "https://raw.githubusercontent.com/yvzhongbutong123/SUAT-Rm-Homework-System/main/downloads/RM-Homework-1.0.9.exe",
-  "publishedAt": "2026-11-11T21:30:00+08:00"
+  "version": "1.0.4",
+  "notes": "恢复 1.0.4 的前台启动方式（双击打开窗口并唤起浏览器，关闭窗口停止服务）；新增删除成员功能（仅队长可用）。",
+  "url": "https://raw.githubusercontent.com/yvzhongbutong123/SUAT-Rm-Homework-System/main/downloads/RM-Homework-1.0.4.exe",
+  "publishedAt": "2026-11-11T21:40:00+08:00"
 }
