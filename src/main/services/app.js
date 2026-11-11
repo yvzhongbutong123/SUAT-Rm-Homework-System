@@ -235,7 +235,14 @@ class AppServices {
       const last = latest ? latest.login : this.settings.data.lastLogin;
       if (!token || !last) return null;
       try {
-        return await this.login({ token, silent: true, remember: false });
+        const result = await this.login({ token, silent: true, remember: false });
+        // 打开时做一次成员检索：members.json 里没有当前账号就补登记
+        try {
+          await this.ensureMembership();
+        } catch (err) {
+          this.logger.warn(`成员检索失败：${err.message}`);
+        }
+        return result;
       } catch (err) {
         this.logger.warn(`自动恢复登录失败：${err.message}`);
         if (latest && /401|Bad credentials|登录失败|Unauthorized/i.test(err.message)) {
@@ -251,6 +258,41 @@ class AppServices {
   /* ------------------------------------------------------------------ */
   /* 登录 / 仓库                                                         */
   /* ------------------------------------------------------------------ */
+
+  /** 打开时检索 members.json：没有当前账号就写入（未分组组员），有则继续。 */
+  async ensureMembership() {
+    if (!this.session || this.session.demo || !this.storage) {
+      return { existed: true, added: false };
+    }
+    const login = this.session.user.login;
+    const data = await this.getMembers();
+    if (data.members[login]) {
+      this.session.user.pendingGroup = data.members[login].role === 'member' && !data.members[login].group;
+      return { existed: true, added: false };
+    }
+    if (this.repoInfo && this.repoInfo.permissions && this.repoInfo.permissions.push === false) {
+      return { existed: false, added: false, reason: 'no-write' };
+    }
+    await this.storage.mutate(async () => {
+      const fresh = await this.getMembers();
+      if (fresh.members[login]) return;
+      fresh.version = 1;
+      fresh.updatedAt = nowIso();
+      fresh.members[login] = {
+        role: 'member',
+        group: null,
+        name: this.session.user.name || login,
+        createdAt: nowIso(),
+        pendingGroup: true,
+      };
+      await this.storage.writeJsonRaw('members.json', fresh);
+    }, `chore(members): 检索并登记 ${login}`);
+    this.session.user.role = 'member';
+    this.session.user.group = null;
+    this.session.user.pendingGroup = true;
+    this.logger.info(`members.json 未找到 ${login}，已登记为待分组组员`);
+    return { existed: false, added: true };
+  }
 
   async login({ token, repoUrl, silent = false, remember = true, accountLogin = null }) {
     if (!token && accountLogin) {

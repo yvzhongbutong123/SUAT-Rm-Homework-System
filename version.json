@@ -1,6 +1,6 @@
 {
-  "version": "1.0.1",
-  "notes": "修复：自动登录时也会登记未分组组员；无写权限时给出提示；新增设置页「检查更新」。",
-  "url": "https://github.com/yvzhongbutong123/SUAT-Rm-Homework-System/releases/latest/download/RM-Homework-1.0.1.exe",
-  "publishedAt": "2026-11-11T18:10:00+08:00"
+  "version": "1.0.2",
+  "notes": "打开应用时检索 members.json：已有当前账号则继续，没有则自动登记为未分组组员（含自动登录）。",
+  "url": "https://github.com/yvzhongbutong123/SUAT-Rm-Homework-System/releases/latest/download/RM-Homework-1.0.2.exe",
+  "publishedAt": "2026-11-11T19:40:00+08:00"
 }
