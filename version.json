@@ -1,6 +1,6 @@
 {
-  "version": "1.1.1",
-  "notes": "数据目录优先使用 exe 同目录 data，绕开 Windows 受控文件夹访问导致的 AppData 写入失败；删除成员仅队长可用。",
-  "url": "https://raw.githubusercontent.com/yvzhongbutong123/SUAT-Rm-Homework-System/main/downloads/RM-Homework-1.1.1.exe",
-  "publishedAt": "2026-11-11T22:10:00+08:00"
+  "version": "1.1.2",
+  "notes": "1.1.0 版本重命名为 1.1.2 发布，代码未修改。",
+  "url": "https://raw.githubusercontent.com/yvzhongbutong123/SUAT-Rm-Homework-System/main/downloads/RM-Homework-1.1.2.exe",
+  "publishedAt": "2026-11-11T22:20:00+08:00"
 }
