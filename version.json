@@ -1,6 +1,6 @@
 {
-  "version": "1.0.5",
-  "notes": "启动后服务在后台运行，关闭 CMD 窗口不再退出；设置页新增「退出应用」；删除成员改为仅队长可用。",
-  "url": "https://raw.githubusercontent.com/yvzhongbutong123/SUAT-Rm-Homework-System/main/downloads/RM-Homework-1.0.5.exe",
-  "publishedAt": "2026-11-11T20:40:00+08:00"
+  "version": "1.0.6",
+  "notes": "修复后台模式下浏览器未被唤起的问题：由启动窗口读取后台端口并打开浏览器。",
+  "url": "https://raw.githubusercontent.com/yvzhongbutong123/SUAT-Rm-Homework-System/main/downloads/RM-Homework-1.0.6.exe",
+  "publishedAt": "2026-11-11T21:00:00+08:00"
 }

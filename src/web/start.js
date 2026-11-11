@@ -84,21 +84,51 @@ async function main() {
   // 首次启动时分离出一个后台进程：关闭当前 CMD 窗口不会停止服务
   const isDaemon = process.argv.includes('--daemon');
   if (!isDaemon && process.platform === 'win32' && !process.env.RMH_DAEMON) {
+    const dataDir = resolveDataDir();
+    const daemonFile = path.join(dataDir, 'daemon.json');
+    try {
+      fs.unlinkSync(daemonFile);
+    } catch {
+      /* ignore */
+    }
     try {
       const child = spawn(process.execPath, ['--daemon'], {
         detached: true,
         stdio: 'ignore',
         windowsHide: true,
-        env: { ...process.env, RMH_DAEMON: '1' },
+        env: { ...process.env, RMH_DAEMON: '1', RMH_NO_OPEN: '1' },
       });
       child.unref();
       console.log('');
       console.log('  RoboMaster 战队作业管理 · 后台模式');
       console.log('  ------------------------------------------------');
-      console.log('  服务已在后台启动，浏览器会自动打开。');
+      console.log('  服务已在后台启动，正在唤起浏览器…');
       console.log('  关闭此窗口不会停止服务。');
       console.log('  如需停止，请在应用「设置」页点击「退出应用」。');
       console.log('');
+
+      // 读取后台进程写下的端口，由这个可见窗口负责唤起浏览器
+      const startedAt = Date.now();
+      const timer = setInterval(() => {
+        try {
+          const info = JSON.parse(fs.readFileSync(daemonFile, 'utf8'));
+          if (info && info.url) {
+            clearInterval(timer);
+            console.log(`  地址: ${info.url}`);
+            if (!process.env.RMH_NO_OPEN) {
+              const open = spawn('cmd.exe', ['/c', 'start', '', info.url], {
+                detached: true,
+                stdio: 'ignore',
+              });
+              open.unref();
+            }
+          }
+        } catch {
+          /* not ready yet */
+        }
+        if (Date.now() - startedAt > 15000) clearInterval(timer);
+      }, 400);
+
       // 用定时器保持窗口；关闭窗口只结束这个启动器，后台服务继续运行
       setInterval(() => {}, 60000);
       return;
@@ -152,6 +182,16 @@ async function main() {
   const port = await server.start();
   const url = `http://127.0.0.1:${port}/?k=${apiKey}`;
   bootLog(`服务已启动 ${url}`);
+
+  // 给启动窗口留一份端口信息，由它负责唤起浏览器
+  try {
+    fs.writeFileSync(
+      path.join(dataDir, 'daemon.json'),
+      JSON.stringify({ port, key: apiKey, url, pid: process.pid }),
+    );
+  } catch {
+    /* ignore */
+  }
 
   console.log('');
   console.log('  RoboMaster 战队作业管理 · 浏览器模式');
