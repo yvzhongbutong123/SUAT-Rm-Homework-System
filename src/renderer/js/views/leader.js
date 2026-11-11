@@ -1148,7 +1148,7 @@ export async function renderMembers(ctx) {
                   <td>
                     <div class="actions">
                       ${m.pendingGroup && data.scope ? `<button class="btn btn--sm btn--primary" data-claim="${escapeHtml(m.login)}">${icon('plus', 12)} 加入我组</button>` : ''}
-                      ${ctx.app.isCaptain() ? `<button class="btn btn--sm btn--danger" data-remove="${escapeHtml(m.login)}" title="从仓库移除">${icon('trash', 12)}</button>` : ''}
+                      <button class="btn btn--sm btn--danger" data-remove="${escapeHtml(m.login)}" title="从仓库移除">${icon('trash', 12)}</button>
                     </div>
                   </td>
                 </tr>`,

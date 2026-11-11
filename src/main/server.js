@@ -78,10 +78,6 @@ class LocalServer {
     get('/api/health', async () => ({ ok: true, version: this.version }));
     get('/api/me', async () => app.me());
     get('/api/update/check', async () => app.checkForUpdate());
-    post('/api/shutdown', async () => {
-      setTimeout(() => process.exit(0), 300);
-      return { ok: true, message: '服务已停止' };
-    });
     post('/api/login', async (ctx) =>
       app.login({
         token: ctx.body.token,

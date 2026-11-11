@@ -205,7 +205,6 @@ export async function renderSettings(ctx) {
             <button class="btn btn--sm" id="open-data">${icon('folder', 13)} 打开数据目录</button>
             <button class="btn btn--sm btn--ghost" id="show-about">${icon('info', 13)} 使用说明</button>
             <button class="btn btn--sm btn--ghost" id="check-update">${icon('refresh', 13)} 检查更新</button>
-            <button class="btn btn--sm btn--danger" id="shutdown-app">${icon('logout', 13)} 退出应用</button>
           </div>
           <div id="update-result" class="tiny muted" style="margin-top:10px;line-height:1.7"></div>
         </div>
@@ -319,22 +318,6 @@ export async function renderSettings(ctx) {
         toast(`轮询间隔已设为 ${sec} 秒`, { variant: 'success' });
       });
 
-      el.querySelector('#shutdown-app').addEventListener('click', async () => {
-        const ok = await confirmDialog({
-          title: '退出应用',
-          message: '将停止后台服务，浏览器页面会失效。确定退出吗？',
-          confirmText: '退出',
-          danger: true,
-        });
-        if (!ok) return;
-        try {
-          await api.post('/api/shutdown');
-        } catch {
-          /* ignore */
-        }
-        toast('服务已停止，可关闭此页面', { variant: 'info' });
-      });
-
       el.querySelector('#open-data').addEventListener('click', () => {
         if (window.rmh?.openDataDir) window.rmh.openDataDir();
         else toast(`数据目录：${settings.dataDir}`, { variant: 'info', timeout: 8000 });
@@ -346,7 +329,8 @@ export async function renderSettings(ctx) {
         btn.disabled = true;
         btn.innerHTML = '<span class="spinner"></span> 检查中';
         try {
-          const res = await api.get('/api/update/check');          if (res.hasUpdate) {
+          const res = await api.get('/api/update/check');
+          if (res.hasUpdate) {
             box.innerHTML = `发现新版本 <b>v${escapeHtml(res.latest)}</b>（当前 v${escapeHtml(res.current)}）<br>${escapeHtml(res.notes || '')}${
               res.url ? `<br><a href="${escapeHtml(res.url)}" target="_blank" rel="noopener">下载更新</a>` : ''
             }`;
