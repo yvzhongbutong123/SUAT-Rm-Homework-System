@@ -388,7 +388,8 @@ class AppServices {
       this.session.user.role = 'member';
       this.session.user.group = null;
       this.session.user.pendingGroup = true;
-      if (canWrite && !silent) {
+      // 自动登录（silent）也要登记，否则新组员会一直不出现在组长端
+      if (canWrite) {
         try {
           await this.storage.mutate(async () => {
             const fresh = await this.getMembers();
@@ -398,8 +399,12 @@ class AppServices {
             await this.storage.writeJsonRaw('members.json', fresh);
           }, `chore(members): 登记组员 ${user.login}`);
         } catch (err) {
-          this.warnings.push('自动登记成员失败（不影响浏览作业）：' + err.message);
+          if (!silent) {
+            this.warnings.push('自动登记成员失败（不影响浏览作业）：' + err.message);
+          }
         }
+      } else if (!silent) {
+        this.warnings.push('当前 Token 没有作业仓库的写入权限，无法自动登记到成员表，请让组长手动添加或更换有写权限的 Token。');
       }
     }
 
