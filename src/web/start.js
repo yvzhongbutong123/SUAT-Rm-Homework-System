@@ -63,8 +63,9 @@ function resolveDataDir() {
     return process.env.RMH_DATA_DIR;
   }
   const candidates = [
-    path.join(process.env.APPDATA || '', 'RMHomework'),
+    // exe / 项目同目录优先：避免 Windows 受控文件夹访问拦截自编译 exe 写 AppData
     path.join(path.dirname(process.execPath), 'data'),
+    path.join(process.env.APPDATA || '', 'RMHomework'),
     path.join(os.tmpdir(), 'RMHomework'),
   ].filter(Boolean);
 

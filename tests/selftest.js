@@ -339,8 +339,15 @@ async function main() {
     const again = await app.listMembers();
     assert.strictEqual(again.members.find((m) => m.login === 'grace').pendingGroup, true);
 
-    await app.removeMember('grace');
-    assert.ok(!(await app.listMembers()).members.find((m) => m.login === 'grace'));
+    // 只有队长可以删除成员：组长尝试删除应被拒绝
+    let removeErr = null;
+    try {
+      await app.removeMember('grace');
+    } catch (e) {
+      removeErr = e;
+    }
+    assert.ok(removeErr && removeErr.status === 403, '组长不能删除成员');
+    assert.ok((await app.listMembers()).members.find((m) => m.login === 'grace'), 'grace 应仍然存在');
   });
 
   await test('兑换码：错误码被拒绝', async () => {

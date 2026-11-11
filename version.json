@@ -1,6 +1,6 @@
 {
-  "version": "1.1.0",
-  "notes": "以 1.0.4 为基线重新发布：前台启动、双击打开窗口并唤起浏览器、关闭窗口停止服务。",
-  "url": "https://raw.githubusercontent.com/yvzhongbutong123/SUAT-Rm-Homework-System/main/downloads/RM-Homework-1.1.0.exe",
-  "publishedAt": "2026-11-11T22:00:00+08:00"
+  "version": "1.1.1",
+  "notes": "数据目录优先使用 exe 同目录 data，绕开 Windows 受控文件夹访问导致的 AppData 写入失败；删除成员仅队长可用。",
+  "url": "https://raw.githubusercontent.com/yvzhongbutong123/SUAT-Rm-Homework-System/main/downloads/RM-Homework-1.1.1.exe",
+  "publishedAt": "2026-11-11T22:10:00+08:00"
 }
