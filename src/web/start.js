@@ -82,8 +82,8 @@ function resolveDataDir() {
 
 function openBrowser(url) {
   const attempts = [
-    () => spawn('explorer.exe', [url], { detached: true, stdio: 'ignore' }),
     () => spawn('cmd.exe', ['/c', 'start', '', url], { detached: true, stdio: 'ignore' }),
+    () => spawn('explorer.exe', [url], { detached: true, stdio: 'ignore' }),
     () => spawn('rundll32.exe', ['url.dll,FileProtocolHandler', url], { detached: true, stdio: 'ignore' }),
   ];
   for (const attempt of attempts) {

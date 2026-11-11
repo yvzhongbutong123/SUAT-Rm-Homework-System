@@ -1,6 +1,6 @@
 {
-  "version": "1.0.8",
-  "notes": "修复浏览器唤起：改用 explorer / cmd start / rundll32 依次尝试，并在窗口内打印地址作为兜底。",
-  "url": "https://raw.githubusercontent.com/yvzhongbutong123/SUAT-Rm-Homework-System/main/downloads/RM-Homework-1.0.8.exe",
-  "publishedAt": "2026-11-11T21:20:00+08:00"
+  "version": "1.0.9",
+  "notes": "浏览器改用 cmd start 优先唤起；新增带可写数据目录的启动脚本，避免 AppData 权限问题。",
+  "url": "https://raw.githubusercontent.com/yvzhongbutong123/SUAT-Rm-Homework-System/main/downloads/RM-Homework-1.0.9.exe",
+  "publishedAt": "2026-11-11T21:30:00+08:00"
 }
