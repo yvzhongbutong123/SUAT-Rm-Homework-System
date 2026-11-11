@@ -1,6 +1,6 @@
 {
-  "version": "1.0.4",
-  "notes": "修复成员合并时机：登录拉取前先备份本地 members.json，拉取后把本地独有成员合并进 GitHub 并推送。",
-  "url": "https://github.com/yvzhongbutong123/SUAT-Rm-Homework-System/releases/latest/download/RM-Homework-1.0.4.exe",
-  "publishedAt": "2026-11-11T19:55:00+08:00"
+  "version": "1.0.5",
+  "notes": "启动后服务在后台运行，关闭 CMD 窗口不再退出；设置页新增「退出应用」；删除成员改为仅队长可用。",
+  "url": "https://raw.githubusercontent.com/yvzhongbutong123/SUAT-Rm-Homework-System/main/downloads/RM-Homework-1.0.5.exe",
+  "publishedAt": "2026-11-11T20:40:00+08:00"
 }

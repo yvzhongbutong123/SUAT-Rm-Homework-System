@@ -339,8 +339,15 @@ async function main() {
     const again = await app.listMembers();
     assert.strictEqual(again.members.find((m) => m.login === 'grace').pendingGroup, true);
 
-    await app.removeMember('grace');
-    assert.ok(!(await app.listMembers()).members.find((m) => m.login === 'grace'));
+    // 只有队长可以删除成员：组长尝试删除应被拒绝
+    let removeErr = null;
+    try {
+      await app.removeMember('grace');
+    } catch (e) {
+      removeErr = e;
+    }
+    assert.ok(removeErr && removeErr.status === 403, '组长不能删除成员');
+    assert.ok((await app.listMembers()).members.find((m) => m.login === 'grace'), 'grace 应仍然存在');
   });
 
   await test('兑换码：错误码被拒绝', async () => {
@@ -476,6 +483,13 @@ async function main() {
     assert.ok(!n.joinRequests.some((j) => j.login === 'diana'), '队长不应出现在进组通知');
 
     await app.setMember('diana', { group: null });
+
+    // 队长可以删除成员
+    await app.removeMember('grace');
+    assert.ok(
+      !(await app.listMembers()).members.find((m) => m.login === 'grace'),
+      '队长删除后成员应消失',
+    );
   });
 
   await test('当前周由队长管理，历史周同样按组隔离', async () => {

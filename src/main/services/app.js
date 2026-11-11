@@ -1746,6 +1746,7 @@ class AppServices {
 
   async removeMember(login) { await this.refreshSession();
     this.requireLeader();
+    if (!this.isCaptain()) throw new HttpError(403, '只有队长可以删除成员');
     if (!isValidLogin(login)) throw new HttpError(400, '账号名不合法');
     if (login === this.session.user.login) throw new HttpError(400, '不能移除自己');
     await this.assertManageable(login);

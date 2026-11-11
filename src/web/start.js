@@ -81,6 +81,32 @@ function resolveDataDir() {
 }
 
 async function main() {
+  // 首次启动时分离出一个后台进程：关闭当前 CMD 窗口不会停止服务
+  const isDaemon = process.argv.includes('--daemon');
+  if (!isDaemon && process.platform === 'win32' && !process.env.RMH_DAEMON) {
+    try {
+      const child = spawn(process.execPath, ['--daemon'], {
+        detached: true,
+        stdio: 'ignore',
+        windowsHide: true,
+        env: { ...process.env, RMH_DAEMON: '1' },
+      });
+      child.unref();
+      console.log('');
+      console.log('  RoboMaster 战队作业管理 · 后台模式');
+      console.log('  ------------------------------------------------');
+      console.log('  服务已在后台启动，浏览器会自动打开。');
+      console.log('  关闭此窗口不会停止服务。');
+      console.log('  如需停止，请在应用「设置」页点击「退出应用」。');
+      console.log('');
+      // 用定时器保持窗口；关闭窗口只结束这个启动器，后台服务继续运行
+      setInterval(() => {}, 60000);
+      return;
+    } catch (err) {
+      bootLog('后台启动失败，改为前台运行：' + err.message);
+    }
+  }
+
   bootLog(`启动 v${pkg.version} exec=${process.execPath} node=${process.version}`);
   const dataDir = resolveDataDir();
   bootLog(`数据目录 ${dataDir}`);
