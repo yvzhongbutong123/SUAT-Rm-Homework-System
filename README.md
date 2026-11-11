@@ -16,7 +16,7 @@
 ## 真实使用
 
 - 默认仓库：`git@github.com:yvzhongbutong123/SUAT-Rm-Homework.git`（登录页可改；本机无 SSH Key 时自动改用 HTTPS + Token）。
-- 组长：GitHub Token + 兑换码 `pxr20080819Q` → 连接仓库 → 在成员管理中分配分组。
+- 组长：GitHub Token + 兑换码 → 连接仓库 → 在成员管理中分配分组。
 - 组员：GitHub Token 登录 → 等待组长拉入小组 → 选择/拖入作业文件夹提交。
 - **分组隔离**：作业、提交目录（`weekNN/submissions/<group>/<login>/`）、看板与批改都按组过滤；组组长只能管理本组，未进组成员会通知全体组长。
 - 登录时勾选「记住此账号」即可下次自动登录；账号与 Token 加密保存在本机。
