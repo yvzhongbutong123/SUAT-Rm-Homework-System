@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RoboMaster 战队作业管理</title>
+    <link rel="stylesheet" href="./css/app.css" />
+  </head>
+  <body>
+    <div class="titlebar" id="titlebar">
+      <div class="titlebar__brand">
+        <span class="titlebar__mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M12 2.6 20 7v10l-8 4.4L4 17V7l8-4.4Z" />
+            <path d="M9.2 9.2v5.6M14.8 9.2v5.6M9.2 12h5.6" />
+          </svg>
+        </span>
+        <span class="titlebar__name">RoboMaster 战队作业管理</span>
+        <span class="titlebar__tag" id="titlebar-tag"></span>
+      </div>
+      <div class="titlebar__drag"></div>
+      <div class="titlebar__actions">
+        <button class="winbtn" id="win-min" title="最小化" aria-label="最小化">
+          <svg viewBox="0 0 12 12" width="10" height="10"><path d="M2 6h8" stroke="currentColor" stroke-width="1.2" /></svg>
+        </button>
+        <button class="winbtn" id="win-max" title="最大化" aria-label="最大化">
+          <svg viewBox="0 0 12 12" width="10" height="10"><rect x="2.2" y="2.2" width="7.6" height="7.6" rx="1" fill="none" stroke="currentColor" stroke-width="1.1" /></svg>
+        </button>
+        <button class="winbtn winbtn--close" id="win-close" title="关闭" aria-label="关闭">
+          <svg viewBox="0 0 12 12" width="10" height="10"><path d="m2.6 2.6 6.8 6.8M9.4 2.6 2.6 9.4" stroke="currentColor" stroke-width="1.2" /></svg>
+        </button>
+      </div>
+    </div>
+
+    <div id="app" class="app-root"></div>
+    <div id="toast-root" class="toast-root" aria-live="polite"></div>
+    <div id="modal-root" class="modal-root"></div>
+
+    <script type="module" src="./js/app.js"></script>
+  </body>
+</html>

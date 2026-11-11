@@ -1,0 +1,9 @@
+node_modules/
+dist/
+build/
+.tmp/
+.npm-cache/
+.cache/
+*.log
+.DS_Store
+.token.tmp
