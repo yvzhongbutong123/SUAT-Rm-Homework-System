@@ -426,6 +426,14 @@ class AppServices {
       },
     });
 
+    // 在 pull（reset --hard）之前备份本地成员表，pull 后再与云端合并
+    let localMembersBeforePull = null;
+    try {
+      localMembersBeforePull = await this.storage.readJson('members.json');
+    } catch {
+      localMembersBeforePull = null;
+    }
+
     try {
       await this.storage.ensure();
       const pull = await this.storage.pull();
@@ -436,12 +444,36 @@ class AppServices {
     }
 
     const teams = await this.getTeams();
-    const membersData = await this.getMembers();
-    const record = membersData.members[user.login];
+    let membersData = await this.getMembers();
     const canWrite = this.repoInfo.permissions ? this.repoInfo.permissions.push !== false : true;
     if (!canWrite) {
       this.warnings.push('当前 Token 没有该仓库的写入权限，提交作业、批改与发布将会失败，请更换 Token 或检查权限。');
     }
+
+    // 把 pull 前本地独有的成员补回云端（本地与 GitHub 合并）
+    if (localMembersBeforePull && localMembersBeforePull.members && canWrite) {
+      const missing = Object.entries(localMembersBeforePull.members).filter(
+        ([login]) => !membersData.members[login],
+      );
+      if (missing.length) {
+        try {
+          await this.storage.mutate(async () => {
+            const fresh = await this.getMembers();
+            for (const [login, rec] of missing) {
+              if (!fresh.members[login]) fresh.members[login] = rec;
+            }
+            fresh.version = 1;
+            fresh.updatedAt = nowIso();
+            await this.storage.writeJsonRaw('members.json', fresh);
+          }, 'chore(members): 合并本地成员');
+          membersData = await this.getMembers();
+          this.logger.info(`登录时合并了 ${missing.length} 个本地成员`);
+        } catch (err) {
+          this.warnings.push('合并本地成员失败：' + err.message);
+        }
+      }
+    }
+    const record = membersData.members[user.login];
 
     if (record) {
       this.session.user.role =
