@@ -1,6 +1,6 @@
 {
-  "version": "1.0.4",
+  "version": "1.1.0",
   "notes": "恢复 1.0.4 的前台启动方式（双击打开窗口并唤起浏览器，关闭窗口停止服务）；新增删除成员功能（仅队长可用）。",
-  "url": "https://raw.githubusercontent.com/yvzhongbutong123/SUAT-Rm-Homework-System/main/downloads/RM-Homework-1.0.4.exe",
-  "publishedAt": "2026-11-11T21:40:00+08:00"
+  "url": "https://raw.githubusercontent.com/yvzhongbutong123/SUAT-Rm-Homework-System/main/downloads/RM-Homework-1.1.0.exe",
+  "publishedAt": "2026-11-11T21:50:00+08:00"
 }
