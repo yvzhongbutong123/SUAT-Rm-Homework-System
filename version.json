@@ -1,6 +1,6 @@
 {
-  "version": "1.0.6",
-  "notes": "修复后台模式下浏览器未被唤起的问题：由启动窗口读取后台端口并打开浏览器。",
-  "url": "https://raw.githubusercontent.com/yvzhongbutong123/SUAT-Rm-Homework-System/main/downloads/RM-Homework-1.0.6.exe",
-  "publishedAt": "2026-11-11T21:00:00+08:00"
+  "version": "1.0.7",
+  "notes": "恢复前台启动：双击打开窗口并自动唤起浏览器，关闭窗口即停止服务（移除后台分离模式）。",
+  "url": "https://raw.githubusercontent.com/yvzhongbutong123/SUAT-Rm-Homework-System/main/downloads/RM-Homework-1.0.7.exe",
+  "publishedAt": "2026-11-11T21:10:00+08:00"
 }
